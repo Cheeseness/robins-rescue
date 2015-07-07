@@ -3,9 +3,15 @@ Robin's Rescue is an example point and click adventure game made using the GPL l
 
 Big thanks to Mim for character designs and animations, and a special thank you to all my Patreon supporters (see SUPPORTERS.md for details).
 
-Instructions for compiling and/or running this game can be found below, along with notes on how to navigate the game's codebase and resources and information on asset and code licences.
+In this file, you can find:
 
-Enjoy!
+* Licence information for code, assets and third party assets
+* Instructions for playing the game
+* Instructions for compiling and/or running the game 
+* Notes on how to navigate the game's codebase and resources
+* Some helpful/related URLs
+
+I hope you find something useful from playing Robin's Rescue and exploring its code!
 
 - Cheese
 
@@ -76,3 +82,10 @@ Robin's Rescue has very few code comments (this may change in the future!). Here
 * The _sprites_ folder contains all compiled spritesheets in SLUDGE's DUC format.
 * The _sprite_sources_ folder contains TGA sources for all sprites and sprite animations. These are not necessary to compile the game.
 * The _sludge_ folder contains information on SLUDGE licencing and Linux specific engine code changes for creating portable builds.
+
+
+## Helpful URLs
+* [More information on Robin's Rescue](http://robinsrescue.twolofbees.com)
+* [Robin's Rescue Source Code and Assets](https://github.com/Cheeseness/robins-rescue)
+* [More of Cheese and Mim's Artwork](http://twolofbees.com)
+* [Support Cheese Making Games](http://patreon.com/cheeseness)
