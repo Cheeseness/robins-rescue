@@ -7,8 +7,8 @@ objectType oKey("Large Key")
 	
 	event actionUse
 	{
-		inventoryAddItem(oKey);
 		removeCharacter(oKey);
+		inventoryAddItem(oKey);
 	}
 
 	sub getDefaultCostume()
@@ -88,8 +88,8 @@ objectType oRope("Coil of Rope")
 	
 	event actionUse
 	{
-		inventoryAddItem(oRope);
 		removeCharacter(oRope);
+		inventoryAddItem(oRope);
 	}
 
 	sub getDefaultCostume()
