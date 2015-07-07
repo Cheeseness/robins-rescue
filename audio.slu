@@ -12,7 +12,6 @@ sub playMusic(music, loopMusic, fade)
 {
 	if (musicCurrent != NULL)
 	{
-		showText("Halting music!");
 		haltMusic(fade);
 	}
 
