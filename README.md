@@ -17,7 +17,7 @@ I hope you find something useful from playing Robin's Rescue and exploring its c
 
 
 ## Licences
-All source code within this repository is licenced under the [GNU Lesser General Public Licence 3.0](), allowing you to use, share, and modify any or all parts of the codebase so long as they retain this licence and that you make source changes available to anybody you distribute modified versions to. See the file COPYING for the full licence. Yay!
+All source code within this repository is licenced under the [GNU Lesser General Public Licence 3.0](http://www.gnu.org/licenses/lgpl.txt), allowing you to use, share, and modify any or all parts of the codebase so long as they retain this licence and that you make source changes available to anybody you distribute modified versions to. See the file COPYING for the full licence. Yay!
 
 Excluding the files noted below, v [Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/), copyright and created by Josh "Cheeseness" Bush and Miriam "Mimness" Roser. Under these terms, you are free to use, share, make derivatives from the assets in this repository (the items noted below are subject to their own licence requirements), so long as they include a link to the above licence, credit us and indicate any changes that were made. Yay!
 
