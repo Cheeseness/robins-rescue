@@ -339,7 +339,7 @@ sub showMenu()
 	pasteString(CENTRE, 680, "Load Game");
 
 	addScreenRegion(hMenuInfo, 635, 725, 1265, 810, 0, 0, EAST);
-	pasteString(CENTRE, 780, "About");
+	pasteString(CENTRE, 780, "About/How To Play");
 
 	addScreenRegion(hMenuQuit, 635, 825, 1265, 910, 0, 0, EAST);
 	pasteString(CENTRE, 880, "Quit");
@@ -387,7 +387,26 @@ objectType hMenuInfo("")
 {
 	event actionUse
 	{
+		removeAllScreenRegions();
+		addOverlay('backgrounds/menu_background.png', 0, 0);
+		pasteString(640, 440, "How to play:");
+		pasteString(640, 510, "  Left click to walk and interact.");
+		pasteString(640, 580, "  Right click to open inventory.");
+		pasteString(640, 650, "  . (period) to skip dialogue.");
+		pasteString(640, 720, "  B and F show hotspots/floors.");
+		pasteString(640, 800, "For more information, including");
+		pasteString(640, 850, "sources, licences & supporters,");
+		pasteString(640, 900, "see README.md!");
+		addScreenRegion(hMenuInfoClose, 0, 0, 1920, 1080, 0, 0, EAST);
 		#TODO show credits (interval? scrolling?)
+	}
+}
+
+objectType hMenuInfoClose("")
+{
+	event actionUse
+	{
+		showMenu();
 	}
 }
 
