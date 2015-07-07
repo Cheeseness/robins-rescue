@@ -1,5 +1,5 @@
 # Robin's Rescue
-Robin's Rescue is an example point and click adventure game made using the GPL licenced [SLUDGE engine](http://opensludge.github.io/). This game was made over the course of several days and has a number of rough edges. Wear gloves when handling!
+Robin's Rescue is an example point and click adventure game made using the LGPL licenced [SLUDGE engine](http://opensludge.github.io/). This game was made over the course of several days and has a number of rough edges. Wear gloves when handling!
 
 Big thanks to Mim for character designs and animations, and a special thank you to all my Patreon supporters (see SUPPORTERS.md for details).
 
@@ -17,7 +17,9 @@ I hope you find something useful from playing Robin's Rescue and exploring its c
 
 
 ## Licences
-Excluding the files noted below, all images and audio within this repository are licenced under Creative Commons [Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/), copyright and created by Josh "Cheeseness" Bush and Miriam Roser. Under these terms, you are free to use, share, make derivatives from the assets in this repository (the items noted below are subject to their own licence requirements), so long as they include a link to the above licence, credit us and indicate any changes that were made. Yay!
+All source code within this repository is licenced under the [GNU Lesser General Public Licence 3.0](), allowing you to use, share, and modify any or all parts of the codebase so long as they retain this licence and that you make source changes available to anybody you distribute modified versions to. See the file COPYING for the full licence. Yay!
+
+Excluding the files noted below, v [Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/), copyright and created by Josh "Cheeseness" Bush and Miriam Roser. Under these terms, you are free to use, share, make derivatives from the assets in this repository (the items noted below are subject to their own licence requirements), so long as they include a link to the above licence, credit us and indicate any changes that were made. Yay!
 
 ### Third Party Sound Effects
 The timing and volume of these samples has been modified to suit Robin's Rescue and they have been reencoded as OGG Vorbis audio.
@@ -45,7 +47,7 @@ Play as Maid Marian and rescue Robin from Sherrif Nottingham's castle.
 
 
 ## Running The Game
-If you are using one of the packaged versions of this game from https://github.com/Cheeseness/robins-rescue/releases, double check the following platform specific notes:
+If you are using one of the packaged versions of this game available from the [Robin's Rescue repository](https://github.com/Cheeseness/robins-rescue/releases), double check the following platform specific notes:
 
 ### Linux
 If you want to run the game without the bundled libraries, be sure to set the SLUDGE_DATADIR environment variable to point to the bin/shaders folder. This environment variable is not a part of vanilla SLUDGE. A diff of source changes can be found in the _sludge_ folder.
@@ -57,7 +59,7 @@ Double click SLUDGEEngine.exe, or drag and drop Gamedata.slg onto SLUDGEEngine.e
 
 
 ## Compiling The Game
-If you have downloaded the game's source to compile yourself, you can open _robins_rescue.slu_ in the _SLUDGE Project Manager_ and select _Compile_ from the _Project_ menu to compile the game.
+If you have downloaded [the game's source](https://github.com/Cheeseness/robins-rescue) to compile yourself, you can open _robins_rescue.slu_ in the _SLUDGE Project Manager_ and select _Compile_ from the _Project_ menu to compile the game.
 
 Once compiled, you can select _Run Game_ from the _Project_ menu to start the game.
 
