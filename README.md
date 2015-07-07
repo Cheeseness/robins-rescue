@@ -94,5 +94,6 @@ Robin's Rescue has very few code comments (this may change in the future!). Here
 ## Helpful URLs
 * [More information on Robin's Rescue](http://robinsrescue.twolofbees.com)
 * [Robin's Rescue Source Code and Assets](https://github.com/Cheeseness/robins-rescue)
+* [SLUDGE Documentation](https://opensludge.github.io/opensludge/doc/SLUDGE_Help.html)
 * [More of Cheese and Mim's Artwork](http://twolofbees.com)
 * [Support Cheese Making Games](http://patreon.com/cheeseness)
