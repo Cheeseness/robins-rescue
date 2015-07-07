@@ -1,0 +1,449 @@
+var roomCurrent = NULL;
+var roomPrevious = NULL;
+var objectCurrent = NULL;
+var movingToExit = FALSE;
+var inventory = newStack();
+var inventoryUsed = newStack();
+var inventoryVisible = FALSE;
+var inventoryCurrent = NULL;
+var inventoryTempIcon = NULL;
+var paused = FALSE;
+var gameStarted = FALSE;
+
+
+var _inventoryXPos = 48;
+var _inventoryYPos = 1040;
+
+var inventoryXPos = _inventoryXPos;
+var inventoryYPos = _inventoryYPos;
+
+sub init()
+{
+	onFocusChange(handleHover);
+	onKeyboard(handleKeyboard);
+
+	setFont('sprites/medieval_sharp.duc', "EABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789\\\"'/?!.,;:()*%&-~`@ ", 32);
+
+	addStatus ();
+	alignStatus(CENTRE);
+	positionStatus(0, 990);
+	setSpeechSpeed(250);
+	setPasteColor(193, 190, 172);
+
+	blankScreen();
+
+	inputEnable();
+	
+	showMenu();
+}
+
+sub inputDisable()
+{
+	onFocusChange();
+	setCursor(NULL);
+	onLeftMouse();
+	onRightMouse();
+}
+
+sub inputEnable()
+{
+	onLeftMouse(handleClick);
+	onRightMouse(inventoryToggle);
+	onFocusChange(handleHover);
+	setCursor(anim('sprites/cursor.duc', 0));
+	handleHover(getOverObject());
+}
+
+sub handleHover(newObject)
+{
+	var cursor = anim('sprites/cursor.duc', 0);
+	var cursorHover = anim('sprites/cursor.duc', 1);
+	if (inventoryCurrent != NULL)
+	{
+		callEvent(getInventoryIcon, inventoryCurrent);
+		cursor = inventoryTempIcon;
+		callEvent(getInventoryIconHighlight, inventoryCurrent);
+		cursorHover = inventoryTempIcon;
+	}
+
+	if (newObject)
+	{
+		#TODO: have some kind of not usable flag so that we can use characters for non-interactive elements without triggering an interactive cursor?
+		objectCurrent = newObject;
+		setCursor(cursorHover);
+		showAction(newObject);
+	}
+	else
+	{
+		objectCurrent = NULL;
+		setCursor(cursor);
+		showAction(NULL);
+	}
+}
+
+sub exitGame()
+{
+	quitGame();
+}
+
+sub handleKeyboard(key)
+{
+	if (key == "q" || key == "ESCAPE")
+	{
+		if (paused)
+		{
+			if (gameStarted)
+			{
+				hideMenu();
+			}
+		}
+		else
+		{
+			showMenu();
+		}
+	}
+	else if (key == "f")
+	{
+		showFloor();
+	}
+	else if (key == "b")
+	{
+		showBoxes();
+	}
+	else if (key == ".")
+	{
+		skipSpeech();
+	}
+}
+
+sub handleClick()
+{
+	if(paused)
+	{
+		handleMenu(objectCurrent);
+	}
+	else
+	{
+		handleUse(objectCurrent);
+	}
+}
+
+sub handleMenu(object)
+{
+	if (object)
+	{
+		callEvent(actionUse, object);
+	}
+}
+
+sub handleUse(object)
+{
+	#TODO: handleHover() after inventory use sometimes isn't working properly? Race conditions when new regions are moreved/added?
+	stopCharacter(cMarian);
+	if (object)
+	{
+		if (hasFlag(object, GUI))
+		{
+			callEvent(actionUse, object);
+		}
+		else
+		{
+			if (object == inventoryCloseButton)
+			{
+				inventoryHide();
+			}
+			else
+			{
+				if (object == cMarian)
+				{
+					#maybe do some sort of expressive action here?
+				}
+				else
+				{
+					if (object == movingToExit)
+					{
+						stopCharacter(cMarian);
+						callEvent(actionUse, object);
+					}
+					else
+					{
+						if (hasFlag(object, EXIT))
+						{
+							movingToExit = object;
+						}
+						else
+						{
+							movingToExit = NULL;
+						}
+						if (checkStack(inventory, object))
+						{
+							inventoryCurrent = object;
+							inventoryHide();
+						}
+						else
+						{
+							if (isScreenRegion(object) == TRUE)
+							{
+								moveCharacter(cMarian, object);
+							}
+							else
+							{
+								var newX = getObjectX(object);
+								var newDir = EAST;
+								if (newX > getObjectX(cMarian))
+								{
+									newX = newX - 180;
+								}
+								else
+								{
+									newX = newX + 180;
+									newDir = WEST;
+								}
+								moveCharacter(cMarian, newX, getObjectY(object));
+								if (newX > getObjectX(cMarian))
+								{
+									turnCharacter(cMarian, newDir);
+								}
+								else
+								{
+									turnCharacter(cMarian, newDir);
+								}
+							}
+							var dir = getCharacterDirection(cMarian);
+
+							if (inventoryCurrent != NULL)
+							{
+								if (dir == 0)
+								{
+									playAnim(cMarian, cMarian.getGrabNorth());
+								}
+								else if (dir == 1)
+								{
+									playAnim(cMarian, cMarian.getGrabWest());
+								}
+								else if (dir == 2)
+								{
+									playAnim(cMarian, cMarian.getGrabSouth());
+								}
+								else if (dir == 3)
+								{
+									playAnim(cMarian, cMarian.getGrabEast());
+								}
+
+								inputDisable();
+								if(callEvent(actionUseInventory, object) == FALSE)
+								{
+									callEvent(default, actionUseInventory);
+								}
+								inventoryCurrent = NULL;
+								inputEnable();
+							}
+							else
+							{
+								if (hasFlag(object, EXIT) == FALSE)
+								{
+									if (dir == 0)
+									{
+										playAnim(cMarian, cMarian.getGrabNorth());
+									}
+									else if (dir == 1)
+									{
+										playAnim(cMarian, cMarian.getGrabWest());
+									}
+									else if (dir == 2)
+									{
+										playAnim(cMarian, cMarian.getGrabSouth());
+									}
+									else if (dir == 3)
+									{
+										playAnim(cMarian, cMarian.getGrabEast());
+									}
+								}
+								inputDisable();
+								if(callEvent(actionUse, object) == FALSE)
+								{
+									callEvent(default, actionUse);
+								}
+								inputEnable();
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	else
+	{
+		moveCharacter(cMarian, getMouseX(), getMouseY());
+		movingToExit = NULL;
+	}
+	handleHover(getOverObject());
+}
+
+sub playAnim(char, anim)
+{
+	pause(animate(char, anim));
+	normalCharacter(char);
+}
+
+sub transitionRoom(newRoom)
+{
+	handleHover(NULL);
+	roomPrevious = roomCurrent;
+	roomCurrent = newRoom;
+	movingToExit = FALSE;
+
+	removeAllScreenRegions();
+	removeAllCharacters();
+	setZBuffer(NULL);
+	blankScreen();
+
+	#Reset the inventory back to where it was before any scene specific config took place
+	inventoryXPos = _inventoryXPos;
+	inventoryYPos = _inventoryYPos;
+	inventoryVisible = FALSE;
+
+	newRoom();
+	handleHover(getOverObject());
+}
+
+sub showMenu()
+{
+	paused = TRUE;
+	freeze();
+	handleHover(NULL);
+	onFocusChange(handleHover);
+	onKeyboard(handleKeyboard);
+	onLeftMouse(handleClick);
+	addOverlay('backgrounds/menu_background.png', 0, 0);
+	playMusic(music2, TRUE, FALSE);
+
+	addScreenRegion(hMenuNew, 635, 425, 1265, 510, 0, 0, EAST);
+
+	if(gameStarted)
+	{
+		pasteString(CENTRE, 480, "Continue Game");
+	}
+	else
+	{
+		pasteString(CENTRE, 480, "New Game");
+	}
+
+	if (gameStarted)
+	{
+		addScreenRegion(hMenuSave, 635, 525, 1265, 610, 0, 0, EAST);
+		pasteString(CENTRE, 580, "Save Game");
+	}
+
+	addScreenRegion(hMenuLoad, 635, 625, 1265, 710, 0, 0, EAST);
+	pasteString(CENTRE, 680, "Load Game");
+
+	addScreenRegion(hMenuInfo, 635, 725, 1265, 810, 0, 0, EAST);
+	pasteString(CENTRE, 780, "About");
+
+	addScreenRegion(hMenuQuit, 635, 825, 1265, 910, 0, 0, EAST);
+	pasteString(CENTRE, 880, "Quit");
+}
+
+objectType hMenuNew("")
+{
+	event actionUse
+	{
+		if(gameStarted)
+		{
+			hideMenu();
+		}
+		else
+		{
+			gameStarted = TRUE;
+			hideMenu();
+			transitionRoom(rPortcullis);
+		}
+	}
+}
+
+objectType hMenuSave("")
+{
+	event actionUse
+	{
+		if (paused)
+		{
+			hideMenu();
+			saveGame("robin.sav");
+		}
+	}
+}
+
+objectType hMenuLoad("")
+{
+	event actionUse
+	{
+		hideMenu();
+		loadGame("robin.sav");
+	}
+}
+
+objectType hMenuInfo("")
+{
+	event actionUse
+	{
+		#TODO show credits (interval? scrolling?)
+	}
+}
+
+objectType hMenuQuit("")
+{
+	event actionUse
+	{
+		exitGame();
+	}
+}
+
+
+sub hideMenu()
+{
+	paused = FALSE;
+	playMusic(music1, TRUE, FALSE);
+	unfreeze();
+}
+
+sub showText(text)
+{
+	statusText(text);
+}
+
+sub showAction(object)
+{
+	var actionText = "";
+	if (inventoryCurrent != NULL)
+	{
+		actionText = "Use " + inventoryCurrent + " with ";
+	}
+	if(object)
+	{
+		actionText = actionText + object;
+	}
+	showText(actionText);
+}
+
+objectType default("")
+{
+
+}
+
+objectType actionUse("Use")
+{
+	event default
+	{
+		say(cMarian, "I don't know what to do with this " + getOverObject() + ".");
+	}
+}
+
+
+objectType actionUseInventory("Use Inventory")
+{
+	event default
+	{
+		say(cMarian, "I can't use the " + inventoryCurrent + " with this " + getOverObject());
+	}
+}

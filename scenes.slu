@@ -1,0 +1,225 @@
+sub rPortcullis()
+{
+	setScale(660, 350);
+	setZBuffer('backgrounds/rPortcullis.zbu');
+	addOverlay('backgrounds/portcullis_background.png', 0, 0);
+
+	if (hPortcullisKeySpot.isComplete() == FALSE)
+	{
+		setFloor('backgrounds/rPortcullis.flo');
+		addCharacter(oPortcullis, 960, 870, oPortcullis.getDefaultCostume());
+		setCharacterExtra(oPortcullis, FIXEDSIZE + RECTANGULAR);
+		setCharacterWalkSpeed(oPortcullis, 2);
+	}
+	else
+	{
+		setFloor('backgrounds/rPortcullisExit.flo');
+		addScreenRegion(hPortcullisExitNorth, 840, 570, 1080, 880, 960, 760, NORTH);
+	}
+
+	addScreenRegion(hPortcullisKeySpot, 1090, 740, 1130, 810, 1011, 911, NORTH);
+
+	inputDisable();
+	addCharacter(oDoormat, 960, 950, oDoormat.getDefaultCostume());
+	setCharacterExtra(oDoormat, FIXEDSIZE);
+	pause(30);
+	addCharacter(cMarian, 960, 1080, cMarian.getDefaultCostume());
+	setCharacterExtra(cMarian, FRONT);
+	moveCharacter(cMarian, 960, 950);
+	spinCharacter(cMarian, SOUTH);
+	say(cMarian, "Robin's gone and gotten himself captured. Again.");
+	say(cMarian, "It's up to me to rescue him. Again.");
+	inputEnable();
+}
+
+objectType hPortcullisExitNorth("Enter Castle")
+{
+	flags EXIT;
+	event actionUse
+	{
+		if (hPortcullisKeySpot.isComplete())
+		{
+			say(cMarian, "Uh oh! Some guards are coming. I'd better duck into this tack room.");
+			pause(10);
+			transitionRoom(rTackRoom);
+		}
+		else
+		{
+			movingToExit = NULL;
+			say(cMarian, "The portcullis is down. I can't get through!");
+		}
+	}
+}
+
+
+
+sub rTackRoom()
+{
+	setScale(350, 350);
+	addOverlay('backgrounds/tack_room_background.png', 0, 0);
+	setFloor('backgrounds/rTackRoom.flo');
+
+	addScreenRegion(hTackRoomExitSouth, 0, 880, 1920, 1080, 960, 1080, SOUTH);
+
+	addScreenRegion(hTackRoomHorse1, 400, 180, 610, 610, 480, 670, NORTH);
+	addScreenRegion(hTackRoomHorse2, 645, 180, 850, 610, 740, 670, NORTH);
+	addScreenRegion(hTackRoomHorse3, 890, 180, 1100, 610, 990, 670, NORTH);
+	addScreenRegion(hTackRoomHorse4, 1140, 180, 1350, 610, 1230, 670, NORTH);
+	addScreenRegion(hTackRoomHorse5, 1380, 180, 1590, 610, 1500, 670, NORTH);
+
+	if (checkStack(inventory, oRope) == FALSE || checkStack(inventory, oGrapple) == FALSE)
+	{
+		addCharacter(oRope, 220, 320, oRope.getDefaultCostume());
+		setCharacterExtra(oRope, FIXEDSIZE + RECTANGULAR);
+	}
+
+	addCharacter(cMarian, 960, 1080, cMarian.getDefaultCostume());
+	moveCharacter(cMarian, 960, 950);
+}
+
+objectType hTackRoomExitSouth("Leave Tack Room")
+{
+	flags EXIT;
+	event actionUse
+	{
+		transitionRoom(rCorridor);
+	}
+}
+
+
+sub rCorridor()
+{
+	setScale(700, 350);
+	addOverlay('backgrounds/corridor_background.png', 0, 0);
+	setFloor('backgrounds/rCorridor.flo');
+
+	addScreenRegion(hCorridorExitWest, 0, 240, 150, 1080, 0, 1030, WEST);
+	addScreenRegion(hCorridorExitEast, 1640, 240, 1920, 1080, 1920, 1030, EAST);
+	addCharacter(oCorridorDoor, 550, 976, oCorridorDoor.getDefaultCostume());
+	setCharacterExtra(oCorridorDoor, FIXEDSIZE);
+	
+	if (roomPrevious == rTackRoom)
+	{
+		addCharacter(cMarian, 0, 1000, cMarian.getDefaultCostume());
+		moveCharacter(cMarian, 250, 1000);
+	}
+	else
+	{
+		addCharacter(cMarian, 1920, 1000, cMarian.getDefaultCostume());
+		moveCharacter(cMarian, 1720, 1000);
+	}
+}
+
+objectType hCorridorExitWest("Return to Tack Room")
+{
+	flags EXIT;
+	event actionUse
+	{
+		transitionRoom(rTackRoom);
+	}
+}
+
+objectType hCorridorExitEast("Continue Into Castle")
+{
+	flags EXIT;
+	event actionUse
+	{
+		transitionRoom(rRobinCorridor);
+	}
+}
+
+
+
+sub rRobinCorridor()
+{
+	setScale(700, 350);
+	addOverlay('backgrounds/robin_corridor_background.png', 0, 0);
+
+	addScreenRegion(hRobinCorridorExitWest, 0, 240, 150, 1080, 0, 1030, WEST);
+
+	#Setting the destination value to 0, 0 will prevent the character from moving. A direction of -1 means facing whatever direction the character was last facing.
+	addScreenRegion(hRobinCorridorExitEast, 1640, 240, 1920, 1080, 0, 0, -1);
+
+	addCharacter(oRobinCorridorDoor, 965, 976, oRobinCorridorDoor.getDefaultCostume());
+	setCharacterExtra(oRobinCorridorDoor, FIXEDSIZE);
+
+	if (hRobinCorridorGrappleSpot.isComplete() == FALSE)
+	{
+		addScreenRegion(hRobinCorridorGrappleSpot, 850, 0, 1130, 180, 220, 1020, EAST);
+		addCharacter(cGuard, 960, 1040, cGuard.getDefaultCostume());
+		setFloor('backgrounds/rRobinCorridorBlocked.flo');
+	}
+	else
+	{
+		addCharacter(cGuard, 1180, 1010, cGuard.getSleepingCostume());
+		setFloor('backgrounds/rRobinCorridor.flo');
+	}
+
+	addCharacter(cMarian, 0, 1000, cMarian.getDefaultCostume());
+	moveCharacter(cMarian, 250, 1000);
+
+}
+
+objectType hRobinCorridorExitWest("Return to That Other Corridor We Came From")
+{
+	flags EXIT;
+	event actionUse
+	{
+		transitionRoom(rCorridor);
+	}
+}
+
+objectType hRobinCorridorExitEast("Continue Into Castle")
+{
+	flags EXIT;
+	event actionUse
+	{
+		say(cMarian, "Robin's held captive inside this door here. I don't need to go any deeper into the castle.");
+	}
+}
+
+
+
+sub rRobinRoom()
+{
+	setScale(500, 350);
+	addOverlay('backgrounds/robin_room_background.png', 0, 0);
+	setFloor('backgrounds/rRobinRoom.flo');
+
+	inputDisable();
+	addScreenRegion(hRobinRoomExitEast, 1720, 240, 1920, 1080, 1500, 800, EAST);
+	addScreenRegion(hRobinRoomGrappleSpot, 270, 270, 430, 590, 450, 780, WEST);
+	addCharacter(cRobin, 960, 800, cRobin.getDefaultCostume());
+	addCharacter(cMarian, 1920, 800, cMarian.getDefaultCostume());
+	moveCharacter(cMarian, 1500, 800);
+	say(cRobin, "Ah! Marian! I'm glad you're here. You see, I came to rescue you...");
+	say(cMarian, "That must've been hard, given that I wasn't actually in the castle.");
+	say(cRobin, "That's right! Well, now that you're here, I can get on with the rescuing thing. Do you want to stay in here and then I'll go out and come back in?");
+	say(cMarian, "Robin, shush.");
+	inputEnable();
+
+}
+
+objectType hRobinRoomExitEast("Exit Robin's Room")
+{
+	flags EXIT;
+	event actionUse
+	{
+		say(cMarian, "I've found Robin. With the ruckus I made getting in, we'll need to find another way out and soon!");
+		say(cRobin, "Yes, well, I had a plan, but you interrupted my train of thought when you came in. I think it might have been about collecting spoons and digging down beneath the castle...");
+		say(cMarian, "Robin, dear.");
+		say(cRobin, "... but we'd need to make sure we avoided the moat- oh! Yes?");
+		say(cMarian, "Shush.");
+	}
+}
+
+sub rEnding()
+{
+	inputDisable();
+	statusText("The End.");
+	pause(60);
+	say(cRobin, "It sure is dark at the end of the game!");
+	say(cMarian, "Shush.");
+	pause(60);
+	
+}

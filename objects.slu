@@ -1,0 +1,253 @@
+objectType oKey("Large Key")
+{
+	var defaultCostume = costume(anim('sprites/iconKey.duc', 0), anim('sprites/iconKey.duc', 0), anim('sprites/iconKey.duc', 0));
+	var iconCostume = costume(anim('sprites/iconKey.duc', 0), anim('sprites/iconKey.duc', 0), anim('sprites/iconKey.duc', 0));
+	var icon = anim('sprites/iconKey.duc', 0);
+	var iconHighlight = anim('sprites/iconKey.duc', 1);
+	
+	event actionUse
+	{
+		inventoryAddItem(oKey);
+		removeCharacter(oKey);
+	}
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	event getInventoryIconCostume
+	{
+		inventoryTempIcon = iconCostume;
+	}
+
+	event getInventoryIcon
+	{
+		inventoryTempIcon = icon;
+	}
+
+	event getInventoryIconHighlight
+	{
+		inventoryTempIcon = iconHighlight;
+	}
+}
+
+objectType oDoormat("Doormat")
+{
+	var defaultCostume = costume(anim('sprites/doormat.duc', 0), anim('sprites/doormat.duc', 0), anim('sprites/doormat.duc', 0));
+	var rolledCostume = costume(anim('sprites/doormat.duc', 1), anim('sprites/doormat.duc', 1), anim('sprites/doormat.duc', 1));
+	var completed = FALSE;
+
+	event actionUse
+	{
+		if (completed == FALSE)
+		{
+			setCostume(oDoormat, rolledCostume);
+			oDoormat.completed = TRUE;
+			addCharacter(oKey, 824, 978, oKey.getDefaultCostume());
+			setCharacterExtra(oKey, FIXEDSIZE + RECTANGULAR);
+		}
+		else
+		{
+			if (checkStack(inventory, oKey) == FALSE)
+			{
+				say(cMarian, "Ah ha! There's a key under the doormat here!");
+			}
+			else
+			{
+				say(cMarian, "There's nothing else under the doormat.");
+			}
+		}
+	}
+	
+	event actionUseInventory
+	{
+		if (inventoryCurrent == oKey)
+		{
+			say(cMarian, "I don't want to put the key back. I need it to get into the castle.");
+		}
+		else
+		{
+			say(cMarian, "I don't want to hide that under the doormat.");
+		}
+	}
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+}
+
+
+objectType oRope("Coil of Rope")
+{
+	var defaultCostume = costume(anim('sprites/iconRope.duc', 2), anim('sprites/iconRope.duc', 2), anim('sprites/iconRope.duc', 2));
+	var iconCostume = costume(anim('sprites/iconRope.duc', 0), anim('sprites/iconRope.duc', 0), anim('sprites/iconRope.duc', 0));
+	var icon = anim('sprites/iconRope.duc', 0);
+	var iconHighlight = anim('sprites/iconRope.duc', 1);
+	
+	event actionUse
+	{
+		inventoryAddItem(oRope);
+		removeCharacter(oRope);
+	}
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	event getInventoryIconCostume
+	{
+		inventoryTempIcon = iconCostume;
+	}
+
+	event getInventoryIcon
+	{
+		inventoryTempIcon = icon;
+	}
+
+	event getInventoryIconHighlight
+	{
+		inventoryTempIcon = iconHighlight;
+	}
+}
+
+objectType oGrapple("Grappling Hook")
+{
+	var defaultCostume = costume(anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0));
+	var iconCostume = costume(anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0));
+	var icon = anim('sprites/iconGrapple.duc', 0);
+	var iconHighlight = anim('sprites/iconGrapple.duc', 1);
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	event getInventoryIconCostume
+	{
+		inventoryTempIcon = iconCostume;
+	}
+
+	event getInventoryIcon
+	{
+		inventoryTempIcon = icon;
+	}
+
+	event getInventoryIconHighlight
+	{
+		inventoryTempIcon = iconHighlight;
+	}
+}
+
+objectType oCorridorDoor("Door")
+{
+	var defaultCostume = costume(anim('sprites/corridorDoor.duc', 0), anim('sprites/corridorDoor.duc', 0), anim('sprites/corridorDoor.duc', 0));
+	var completed = FALSE;
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	sub isCompleted()
+	{
+		return completed;
+	}
+
+	event actionUse
+	{
+		if (completed == FALSE)
+		{
+			inventoryHide();
+			removeCharacter(oCorridorDoor);
+			playSound(doorOpen);
+			moveCharacter(cMarian, 550, 976);
+			spinCharacter(cMarian, NORTH);
+			say(cMarian, "Let's see what's in here...");
+			pause(20);
+			removeCharacter(cMarian);
+			pause(60);
+			playSound(pickUp);
+			pause(30);
+			playSound(pickUp);
+			pause(20);
+			playSound(pickUp);
+			pause(40);
+			playSound(guardCrash);
+			pause(80);
+			inventoryRemoveItem(oRope);
+			inventoryAddItem(oGrapple);
+			pause(60);
+
+			addCharacter(cMarian, 550, 980, cMarian.getDefaultCostume());
+			moveCharacter(cMarian, 600, 1000);
+			playSound(doorOpen);
+			addCharacter(oCorridorDoor, 550, 976, oCorridorDoor.getDefaultCostume());
+			setCharacterExtra(oCorridorDoor, FIXEDSIZE);
+			pause(20);
+			spinCharacter(cMarian, SOUTH);
+			say(cMarian, "Phew! That was rough. I wrestled a giant bear and found a grappling hook for my rope.");
+			say(cMarian, "Totally worth it!");
+			oCorridorDoor.completed = TRUE;
+		}
+		else
+		{
+			say(cMarian, "I think I've caused enough trouble in there.");
+		}
+	}
+
+	event actionUseInventory
+	{
+		say(cMarian, "The door isn't locked. I can just go in.");
+	}
+}
+
+objectType oRobinCorridorDoor("Door")
+{
+	var defaultCostume = costume(anim('sprites/robinCorridorDoor.duc', 0), anim('sprites/robinCorridorDoor.duc', 0), anim('sprites/robinCorridorDoor.duc', 0));
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	event actionUse
+	{
+		if (hRobinCorridorGrappleSpot.isComplete())
+		{
+			inventoryHide();
+			removeCharacter(oRobinCorridorDoor);
+			playSound(doorOpen);
+			moveCharacter(cMarian, 965, 976);
+			spinCharacter(cMarian, NORTH);
+			pause(20);
+			transitionRoom(rRobinRoom);
+		}
+		else
+		{
+			say(cMarian, "I can't sneak past that guard without getting noticed. There must be a way to take him out!");
+		}
+	}
+
+	event actionUseInventory
+	{
+		say(cMarian, "The door isn't locked. I can just go in.");
+	}
+}
+
+objectType oPortcullis("Portcullis")
+{
+	var defaultCostume = costume(anim('sprites/portcullis.duc', 0), anim('sprites/portcullis.duc', 0), anim('sprites/portcullis.duc', 0));
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	event actionUse
+	{
+		say(cMarian, "The portcullis is lowered and locked. There must be some way to open it.");
+	}
+}

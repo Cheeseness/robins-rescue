@@ -1,0 +1,35 @@
+[SETTINGS]
+windowname=Robin's Rescue
+finalfile=robins_rescue
+language=English
+datafolder=save
+quitmessage=Are you sure you want to quit?
+customicon=
+customlogo=
+mouse=2
+fullscreen=Y
+makesilent=N
+showlogo=Y
+showloading=Y
+invisible=N
+ditherimages=Y
+width=1920
+height=1080
+speed=20
+chrRender_def_enabled=Y
+chrRender_def_softX=4
+chrRender_def_softY=4
+chrRender_max_enabled=Y
+chrRender_max_readIni=Y
+chrRender_max_softX=100
+chrRender_max_softY=100
+
+[FILES]
+audio.slu
+characters.slu
+functions.slu
+hotspots.slu
+init.slu
+inventory.slu
+scenes.slu
+objects.slu

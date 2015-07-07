@@ -1,0 +1,174 @@
+sub inventoryAddItem(item)
+{
+	playSound(pickUp);
+	pushToStack(inventory, item);
+	inventoryUpdate();
+}
+
+
+sub inventoryRemoveItem(item)
+{
+	#TODO: Make this a little more elegant
+	if (inventoryVisible)
+	{
+		inventoryHide();
+		deleteFromStack(inventory, item);
+		inventoryShow();
+	}
+	else
+	{
+		deleteFromStack(inventory, item);
+	}
+
+	pushToStack(inventoryUsed, item);
+}
+
+sub inventoryUpdate()
+{
+	if (inventoryVisible)
+	{
+		inventoryHide();
+		inventoryShow();
+	}
+}
+
+sub inventoryToggle()
+{
+	if (inventoryCurrent != NULL)
+	{
+		inventoryCurrent = NULL;
+		handleHover(getOverObject());
+	}
+	else
+	{
+		if (inventoryVisible)
+		{
+			inventoryHide();
+		}
+		else
+		{
+			inventoryShow();
+		}
+	}
+}
+
+sub inventoryShow()
+{
+	var tempStack = copyStack(inventory);
+	var xoffset = 0;
+	var yoffset = 0;
+
+	callEvent(getInventoryIconCostume, inventoryBackground);
+	addCharacter(inventoryBackground, 960, 1112, inventoryTempIcon);
+	setCharacterExtra(inventoryBackground, ICON + RECTANGULAR);
+	setCharacterWalkSpeed(inventoryBackground, 80);
+	forceCharacter(inventoryBackground, 960, inventoryYPos + yoffset);
+
+	while (tempStack)
+	{
+		if (xoffset > 1792)
+		{
+			yoffset += 64;
+			xoffset = 0;
+		}
+		var i = popFromStack(tempStack);
+		callEvent(getInventoryIconCostume, i);
+		addCharacter(i, inventoryXPos + xoffset, 1112, inventoryTempIcon);
+		setCharacterExtra(i, ICON + RECTANGULAR);
+		setCharacterWalkSpeed(i, 80);
+		forceCharacter(i, inventoryXPos + xoffset, inventoryYPos + yoffset);
+		xoffset += 64;
+	}
+	callEvent(getInventoryIconCostume, inventoryCloseButton);
+	addCharacter(inventoryCloseButton, 1888, 1112, inventoryTempIcon);
+	setCharacterExtra(inventoryCloseButton, ICON + RECTANGULAR);
+	setCharacterWalkSpeed(inventoryCloseButton, 80);
+	forceCharacter(inventoryCloseButton, 1888, inventoryYPos + yoffset);
+	inventoryVisible = TRUE;
+}
+
+sub inventoryHide()
+{
+	var tempStack = copyStack(inventory);
+	while (tempStack)
+	{
+		var i = popFromStack(tempStack);
+		removeCharacter(i);
+	}
+	removeCharacter(inventoryCloseButton);
+	removeCharacter(inventoryBackground);
+	inventoryVisible = FALSE;
+}
+
+objectType inventoryCloseButton("Close Inventory")
+{
+	flags GUI;
+
+	var iconCostume = costume(anim('sprites/iconClose.duc', 0), anim('sprites/iconClose.duc', 0), anim('sprites/iconClose.duc', 0));
+	var icon = anim('sprites/iconClose.duc', 0);
+	var iconHighlight = anim('sprites/iconClose.duc', 0);
+
+	event actionUse
+	{
+		inventoryHide();
+	}
+
+	event getInventoryIconCostume
+	{
+		inventoryTempIcon = iconCostume;
+	}
+	
+	event getInventoryIcon
+	{
+		inventoryTempIcon = icon;
+	}
+
+	event getInventoryIconHighlight
+	{
+		inventoryTempIcon = iconHighlight;
+	}
+}
+
+objectType inventoryBackground("")
+{
+	flags GUI;
+
+	var iconCostume = costume(anim('sprites/inventoryBackground.duc', 0), anim('sprites/inventoryBackground.duc', 0), anim('sprites/inventoryBackground.duc', 0));
+	var icon = anim('sprites/inventoryBackground.duc', 0);
+	var iconHighlight = anim('sprites/inventoryBackground.duc', 0);
+
+	event actionUse
+	{
+	}
+
+	event getInventoryIconCostume
+	{
+		inventoryTempIcon = iconCostume;
+	}
+	
+	event getInventoryIcon
+	{
+		inventoryTempIcon = icon;
+	}
+
+	event getInventoryIconHighlight
+	{
+		inventoryTempIcon = iconHighlight;
+	}
+}
+
+objectType getInventoryIconCostume("")
+{
+
+}
+
+objectType getInventoryIcon("")
+{
+
+}
+
+objectType getInventoryIconHighlight("")
+{
+
+}
+

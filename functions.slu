@@ -1,0 +1,22 @@
+sub checkStack(stack, item)
+{
+	var count = 0;
+	var tempStack = copyStack(stack);
+	while (tempStack)
+	{
+		if (popFromStack(tempStack) == item)
+		{
+			count = count + 1;
+		}
+	}
+
+	if (count > 0)
+	{
+		#statusText("Found" + count + item);
+		return TRUE;
+	}
+	else
+	{
+		return FALSE;
+	}
+}

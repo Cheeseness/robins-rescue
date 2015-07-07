@@ -1,0 +1,19 @@
+diff --git a/source/Engine/main.cpp b/source/Engine/main.cpp
+index 10c8101..d7ec2e4 100644
+--- a/source/Engine/main.cpp
++++ b/source/Engine/main.cpp
+@@ -298,7 +298,12 @@ int main(int argc, char *argv[]) try
+ #ifdef __APPLE__
+        // bundleFolder is set in applicationDidFinishLaunching.
+ #elif defined __unix__
+-       bundleFolder = copyString(DATADIR);     // DATADIR is defined in the Makefile.
++       bundleFolder = getenv("SLUDGE_DATADIR");
++       if (bundleFolder == NULL)
++       {
++               bundleFolder = copyString(DATADIR);     // DATADIR is defined in the Makefile. 
++               fprintf(stderr, "SLUDGE_DATADIR not found, defaulting to %s\n", bundleFolder);
++       }
+ #else
+        bundleFolder = copyString(argv[0]);
+        int lastSlash = -1;
+

@@ -1,0 +1,171 @@
+objectType hPortcullisKeySpot("Keyhole")
+{
+	var completed = FALSE;
+	
+	event actionUse
+	{
+		say(cMarian, "There's got to be a key around here somewhere!");
+	}
+	
+	event actionUseInventory
+	{
+		if (inventoryCurrent = oKey)
+		{
+			playSound('audio/gate.ogg');
+			setFloor('backgrounds/rPortcullisExit.flo');
+			forceCharacter(oPortcullis, 960, 570);
+			addScreenRegion(hPortcullisExitNorth, 840, 570, 1080, 880, 960, 760, NORTH);
+			removeCharacter(oPortcullis);
+			hPortcullisKeySpot.completed = TRUE;
+		}
+	}
+	
+	sub isComplete()
+	{
+		return completed;
+	}
+}
+
+objectType hTackRoomHorse1("Horse")
+{
+	event actionUse
+	{
+		say(cMarian, "Ah, Thunderbolt, the fastest horse in all the kingdom. If there's time, we'll come back for him after I've rescued Robin.");
+	}
+	
+	event actionUseInventory
+	{
+		say(cMarian, "It's late. I don't want to dirsturb them.");
+	}
+}
+
+objectType hTackRoomHorse2("Horse")
+{
+	event actionUse
+	{
+		say(cMarian, "Hmm... I wasn't expecting to see Philip here. That's Prince John's horse. He must be visting the castle in secret.");
+	}
+	
+	event actionUseInventory
+	{
+		say(cMarian, "It's late. I don't want to dirsturb them.");
+	}
+}
+
+objectType hTackRoomHorse3("Horse")
+{
+	event actionUse
+	{
+		say(cMarian, "Jefferson is the Sheriff's horse. It's sad to see such a nice steed paired with a tyrant like him.");
+	}
+	
+	event actionUseInventory
+	{
+		say(cMarian, "It's late. I don't want to dirsturb them.");
+	}
+}
+
+objectType hTackRoomHorse4("Horse")
+{
+	event actionUse
+	{
+		say(cMarian, "It's Lilly, my own horse! If there's time, we'll come back for her after I've rescued Robin.");
+	}
+	
+	event actionUseInventory
+	{
+		say(cMarian, "It's late. I don't want to dirsturb them.");
+	}
+}
+
+
+objectType hTackRoomHorse5("Horse")
+{
+	event actionUse
+	{
+		say(cMarian, "This is Steve. Steve isn't a very nice horse. Steve.");
+	}
+	
+	event actionUseInventory
+	{
+		say(cMarian, "It's late. I don't want to dirsturb them.");
+	}
+}
+
+objectType hRobinCorridorGrappleSpot("Conspicuous Hook")
+{
+	var completed = FALSE;
+	
+	event actionUse
+	{
+		if (checkStack(inventory, oGrapple) == FALSE)
+		{
+			say(cMarian, "That hook looks like it could come in handy, but I have no way of getting my rope up there.");
+		}
+		else
+		{
+			say(cMarian, "That hook looks like it could come in handy, I wonder if my grapple will reach it.");
+		}
+	}
+
+	event actionUseInventory
+	{
+		if ((inventoryCurrent == oGrapple) && (completed == FALSE))
+		{
+			say(cMarian, "Here goes!");
+			setFloor('backgrounds/rRobinCorridor.flo');
+			setCostume(cMarian, cMarian.getSwingCostume());
+			moveCharacter(cMarian, 810, 1010);
+			playSound(guardCrash);
+			animate(cGuard, cGuard.getFallingAnim());
+			moveCharacter(cMarian, 830, 1010);
+			pause(5);
+			setCostume(cMarian, cMarian.getDefaultCostume());
+			pause(27);
+			setCostume(cGuard, cGuard.getSleepingCostume());
+			hRobinCorridorGrappleSpot.completed = TRUE;
+		}
+	}
+
+	sub isComplete()
+	{
+		return completed;
+	}
+}
+
+objectType hRobinRoomGrappleSpot("Window")
+{
+	event actionUse
+	{
+		say(cMarian, "This window is probably the best way out of here, but it's too long a drop to just jump.");
+		say(cRobin, "Maybe we could fly. I have a feather. Will that help?");
+		say(cMarian, "Shush.");
+		
+	}
+	
+	event actionUseInventory
+	{
+		if (inventoryCurrent == oGrapple)
+		{
+			say(cMarian, "Alright, Robin. Let's get you out of here!");
+			say(cRobin, "Coming!");
+			removeCharacter(cMarian);
+			moveCharacter(cRobin, 450, 780);
+			say(cRobin, "Wheeee!");
+			removeCharacter(cRobin);
+			pause(30);
+			playSound(guardCrash);
+			statusText("");
+			blankScreen();
+			inputDisable();
+			pause(60);
+			transitionRoom(rEnding);
+		}
+		else if (inventoryCurrent == oKey)
+		{
+			inventoryRemoveItem(oKey);
+			say(cMarian, "OK, I threw the key out the window. Not sure what that accomplished.");
+			say(cRobin, "That's genius! Why didn't I think of that?");
+		}
+	}
+}

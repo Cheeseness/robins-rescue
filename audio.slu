@@ -1,0 +1,86 @@
+var musicCurrent = NULL;
+var doorOpen = 'audio/doorOpen.ogg';
+var guardCrash = 'audio/guardCrash.ogg';
+var pickUp = 'audio/pickUp.ogg';
+var music1 = 'audio/pippin_the_hunchback.ogg';
+var music2 = 'audio/thatched_villagers.ogg';
+
+
+var musicVolume = 64;
+
+sub playMusic(music, loopMusic, fade)
+{
+	if (musicCurrent != NULL)
+	{
+		showText("Halting music!");
+		haltMusic(fade);
+	}
+
+	musicCurrent = music;
+	
+	if (fade)
+	{
+		setSoundVolume(musicCurrent, 0);
+	}
+	if (loopMusic)
+	{
+		loopSound(musicCurrent);
+	}
+	else
+	{
+		playSound(musicCurrent);
+	}
+	if (fade)
+	{
+		setSoundVolume(musicCurrent, (musicVolume * 10) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 20) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 30) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 40) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 50) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 60) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 70) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 80) / 100);
+		pause(3);
+		setSoundVolume(musicCurrent, (musicVolume * 90) / 100);
+		pause(3);
+	}
+	setSoundVolume(musicCurrent, musicVolume);
+}
+
+sub haltMusic(fade)
+{
+	fade = TRUE;
+	if (musicCurrent != NULL)
+	{
+		if (fade)
+		{
+			setSoundVolume(musicCurrent, (musicVolume * 90) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 80) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 70) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 60) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 50) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 40) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 30) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 20) / 100);
+			pause(3);
+			setSoundVolume(musicCurrent, (musicVolume * 10) / 100);
+			pause(3);
+		}
+		stopSound(musicCurrent);
+		musicCurrent = NULL;
+	}
+}

@@ -1,0 +1,184 @@
+objectType cMarian("")
+{
+	walkSpeed 10;
+	speechColour 244, 203, 123;
+	speechGap 24;
+	wrapSpeech 50;
+
+	var defaultCostume = costume(
+		anim('sprites/marian_walk.duc', wait(3, 3)),
+		anim('sprites/marian_walk.duc', wait(-6, 3)),
+		anim('sprites/marian_walk.duc', wait(0, 3)),
+		anim('sprites/marian_walk.duc', wait(6, 3)),
+
+		anim('sprites/marian_walk.duc', wait(3, 6), wait(4, 6), wait(5, 6)),
+		anim('sprites/marian_walk.duc', wait(-6, 6), wait(-7, 6), wait(-8, 6)),
+		anim('sprites/marian_walk.duc', wait(0, 6), wait(1, 6), wait(2, 6)),
+		anim('sprites/marian_walk.duc', wait(6, 6), wait(7, 6), wait(8, 6)),
+
+		anim('sprites/marian_talk.duc', wait(2, 9), wait(3, 9)),
+		anim('sprites/marian_talk.duc', wait(-4, 9), wait(-5, 9)),
+		anim('sprites/marian_talk.duc', wait(0, 9), wait(1, 9)),
+		anim('sprites/marian_talk.duc', wait(4, 9), wait(5, 9))
+		#anim('sprites/marian_walk.duc', wait(3, 6), wait(4, 6), wait(5, 6)),
+		#anim('sprites/marian_walk.duc', wait(-6, 6), wait(-7, 6), wait(-8, 6)),
+		#anim('sprites/marian_walk.duc', wait(0, 6), wait(1, 6), wait(2, 6)),
+		#anim('sprites/marian_walk.duc', wait(6, 6), wait(7, 6), wait(8, 6))
+		);
+
+	var swingCostume = costume(
+		anim('sprites/marian_swing_east.duc', wait(0, 2), wait(1, 2)),
+		anim('sprites/marian_swing_east.duc', wait(0, 2), wait(1, 2)),
+		anim('sprites/marian_swing_east.duc', wait(0, 2), wait(1, 2))
+		);
+
+	var grabEast = anim('sprites/marian_grab_east.duc', wait(0, 6), wait(1, 6), wait(2, 15), wait(3, 3));
+	var grabWest = anim('sprites/marian_grab_east.duc', wait(-4, 6), wait(-1, 6), wait(-2, 15), wait(-3, 3));
+	var grabNorth = anim('sprites/marian_grab_back.duc', wait(0, 6), wait(1, 6), wait(2, 15), wait(3, 3));
+	var grabSouth = anim('sprites/marian_grab_back.duc', wait(0, 6), wait(1, 6), wait(2, 15), wait(3, 3));
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+
+	event actionUse
+	{
+		say(cMarian, "That's me!");
+	}
+
+	sub getSwingCostume()
+	{
+		return swingCostume;
+	}
+
+	sub getGrabEast()
+	{
+		return grabEast;
+	}
+	
+	sub getGrabWest()
+	{
+		return grabWest;
+	}
+	
+	sub getGrabNorth()
+	{
+		return grabNorth;
+	}
+	
+	sub getGrabSouth()
+	{
+		return grabSouth;
+	}
+}
+
+objectType cRobin("Robin")
+{
+	walkSpeed 10;
+	speechColour 60, 192, 90;
+	speechGap 24;
+	wrapSpeech 50;
+
+	var defaultCostume = costume(
+		anim('sprites/robin.duc', 1),
+		anim('sprites/robin.duc', 1),
+		anim('sprites/robin.duc', 1),
+		anim('sprites/robin.duc', 1),
+
+		anim('sprites/robin_walk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+		anim('sprites/robin_walk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+		anim('sprites/robin_walk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+		anim('sprites/robin_walk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+
+		anim('sprites/robin_talk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+		anim('sprites/robin_talk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+		anim('sprites/robin_talk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6)),
+		anim('sprites/robin_talk.duc', wait(0, 6), wait(1, 6), wait(2, 6), wait(3, 6))
+		);
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+	
+	event actionUse
+	{
+		say(cRobin, "Something witty?");
+		say(cMarian, "Shush.");
+	}
+	
+	event actionUseInventory
+	{
+		if (inventoryCurrent == oGrapple)
+		{
+			say(cRobin, "Oh wow, a grappling hook! I could have really used one of those when I came in here earlier.");
+		}
+		else if(inventoryCurrent == oKey)
+		{
+			say(cRobin, "Yay, the key to my heart.");
+		}
+	}
+}
+
+objectType cGuard("Guard")
+{
+	var defaultCostume = costume(
+		anim('sprites/guard.duc', 0),
+		NULL,
+		NULL
+		);
+
+	var sleepingCostume = costume(
+		anim('sprites/guard.duc', 4),
+		NULL,
+		NULL
+		);
+
+	var fallingAnim = anim('sprites/guard.duc', wait(0, 8), wait(1, 8), wait(2, 8), wait(3, 8), wait(4, 8));
+
+	sub getDefaultCostume()
+	{
+		return defaultCostume;
+	}
+	
+	sub getSleepingCostume()
+	{
+		return sleepingCostume;
+	}
+	
+	sub getFallingAnim()
+	{
+		return fallingAnim;
+	}
+	
+	event actionUse
+	{
+		if (hRobinCorridorGrappleSpot.isComplete() == FALSE)
+		{
+			say(cMarian, "One of Sheriff Nottingham's guards! I'll have to take him by surprise.");
+		}
+		else
+		{
+			say(cMarian, "The bigger they are, the harder they fall, I guess!");
+		}
+	}
+	
+	event actionUseInventory
+	{
+		if (hRobinCorridorGrappleSpot.isComplete() == FALSE)
+		{
+			say(cMarian, "I think that would only make him mad...");
+		}
+		else
+		{
+			if (inventoryCurrent == oGrapple)
+			{
+				say(cMarian, "As much as I'd like to tie him up, I might need this elsewhere.");
+			}
+			else
+			{
+				say(cMarian, "That would be a nice setup for a joke, but it's not very helpful in this situation.");
+			}
+		}
+	}
+}
