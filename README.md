@@ -19,15 +19,15 @@ I hope you find something useful from playing Robin's Rescue and exploring its c
 ## Licences
 All source code within this repository is licenced under the [GNU Lesser General Public Licence 3.0](), allowing you to use, share, and modify any or all parts of the codebase so long as they retain this licence and that you make source changes available to anybody you distribute modified versions to. See the file COPYING for the full licence. Yay!
 
-Excluding the files noted below, v [Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/), copyright and created by Josh "Cheeseness" Bush and Miriam Roser. Under these terms, you are free to use, share, make derivatives from the assets in this repository (the items noted below are subject to their own licence requirements), so long as they include a link to the above licence, credit us and indicate any changes that were made. Yay!
+Excluding the files noted below, v [Attribution 3.0 Unported](http://creativecommons.org/licenses/by/3.0/), copyright and created by Josh "Cheeseness" Bush and Miriam "Mimness" Roser. Under these terms, you are free to use, share, make derivatives from the assets in this repository (the items noted below are subject to their own licence requirements), so long as they include a link to the above licence, credit us and indicate any changes that were made. Yay!
 
 ### Third Party Sound Effects
 The timing and volume of these samples has been modified to suit Robin's Rescue and they have been reencoded as OGG Vorbis audio.
 
-* ["door hinge squeak creak o,c.aiff"](http://freesound.org/people/kyles/sounds/51805/) kyles, licenced under Creative Commons: [Creative Commons 0](http://creativecommons.org/publicdomain/zero/1.0/)
-* ["crash.wav"](http://freesound.org/people/sagetyrtle/sounds/40158/) sagetyrtle, licenced under Creative Commons: [Creative Commons 0](http://creativecommons.org/publicdomain/zero/1.0/)
-* ["KeyPickup.wav"](http://freesound.org/people/wildweasel/sounds/39026/) wildweasel, licensed under Creative Commons: [By Attribution 3.0](http://creativecommons.org/licenses/by/3.0/)
-* ["bridge.wav"](http://www.freesound.org/people/Sergenious/sounds/55820/) Sergenious, licensed under Creative Commons: [By Attribution 3.0](http://creativecommons.org/licenses/by/3.0/)
+* ["door hinge squeak creak o,c.aiff"](http://freesound.org/people/kyles/sounds/51805/) (doorOpen.ogg) kyles, licenced under Creative Commons: [Creative Commons 0](http://creativecommons.org/publicdomain/zero/1.0/)
+* ["crash.wav"](http://freesound.org/people/sagetyrtle/sounds/40158/) (guardCrash.ogg) sagetyrtle, licenced under Creative Commons: [Creative Commons 0](http://creativecommons.org/publicdomain/zero/1.0/)
+* ["KeyPickup.wav"](http://freesound.org/people/wildweasel/sounds/39026/) (pickUp.ogg) wildweasel, licensed under Creative Commons: [By Attribution 3.0](http://creativecommons.org/licenses/by/3.0/)
+* ["bridge.wav"](http://www.freesound.org/people/Sergenious/sounds/55820/) (gate.ogg) Sergenious, licensed under Creative Commons: [By Attribution 3.0](http://creativecommons.org/licenses/by/3.0/)
 
 ### Third Party Music Tracks
 These music tracks have been reencoded as OGG Vorbis audio.
@@ -35,6 +35,11 @@ These music tracks have been reencoded as OGG Vorbis audio.
 * ["Thatched Villagers"](http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100720) Kevin MacLeod (incompetech.com), licensed under Creative Commons: [By Attribution 3.0](http://creativecommons.org/licenses/by/3.0/)
 * ["Pippin the Hunchback"](http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1400005) Kevin MacLeod (incompetech.com), licensed under Creative Commons: [By Attribution 3.0](http://creativecommons.org/licenses/by/3.0/)
 
+
+### Third Party Fonts
+This font has been rendered to a bitmap font and then converted to SLUDGE's DUC spritebank format.
+
+* Medieval Sharp wmk69, licenced under [SIL Open Font Licence](http://scripts.sil.org/OFL) (see _sprite_sources/medieval_sharp_ for TTF, sources and licence)
 
 ## Play Instructions
 Play as Maid Marian and rescue Robin from Sherrif Nottingham's castle.
