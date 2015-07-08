@@ -196,6 +196,7 @@ sub rRobinRoom()
 	say(cMarian, "That must've been hard, given that I wasn't actually in the castle.");
 	say(cRobin, "That's right! Well, now that you're here, I can get on with the rescuing thing. Do you want to stay in here and then I'll go out and come back in?");
 	say(cMarian, "Robin, shush.");
+	pause(10);
 	inputEnable();
 
 }
@@ -221,5 +222,6 @@ sub rEnding()
 	say(cRobin, "It sure is dark at the end of the game!");
 	say(cMarian, "Shush.");
 	pause(60);
-	
+	gameFinished = TRUE;
+	showMenu();
 }
