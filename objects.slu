@@ -115,7 +115,7 @@ objectType oRope("Coil of Rope")
 
 objectType oGrapple("Grappling Hook")
 {
-	var defaultCostume = costume(anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0));
+	var defaultCostume = costume(anim('sprites/iconGrapple.duc', 2), anim('sprites/iconGrapple.duc', 2), anim('sprites/iconGrapple.duc', 2));
 	var iconCostume = costume(anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0), anim('sprites/iconGrapple.duc', 0));
 	var icon = anim('sprites/iconGrapple.duc', 0);
 	var iconHighlight = anim('sprites/iconGrapple.duc', 1);

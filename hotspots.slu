@@ -114,13 +114,21 @@ objectType hRobinCorridorGrappleSpot("Conspicuous Hook")
 		{
 			say(cMarian, "Here goes!");
 			setFloor('backgrounds/rRobinCorridor.flo');
+
+			addCharacter(oGrapple, 953, 124, oGrapple.getDefaultCostume());
+			setCharacterExtra(oGrapple, FIXEDSIZE + FRONT);
+
+			setCharacterExtra(cMarian, FIXEDSIZE + FRONT);
+			jumpCharacter(cMarian, 953, 123);
 			setCostume(cMarian, cMarian.getSwingCostume());
-			moveCharacter(cMarian, 810, 1010);
+			pause(31);
 			playSound(guardCrash);
 			animate(cGuard, cGuard.getFallingAnim());
-			moveCharacter(cMarian, 830, 1010);
 			pause(5);
+			jumpCharacter(cMarian, 830, 1010);
+			setCharacterExtra(cMarian, NORMAL);
 			setCostume(cMarian, cMarian.getDefaultCostume());
+			removeCharacter(oGrapple);
 			pause(27);
 			setCostume(cGuard, cGuard.getSleepingCostume());
 			hRobinCorridorGrappleSpot.completed = TRUE;
@@ -140,7 +148,6 @@ objectType hRobinRoomGrappleSpot("Window")
 		say(cMarian, "This window is probably the best way out of here, but it's too long a drop to just jump.");
 		say(cRobin, "Maybe we could fly. I have a feather. Will that help?");
 		say(cMarian, "Shush.");
-		
 	}
 	
 	event actionUseInventory
@@ -148,6 +155,8 @@ objectType hRobinRoomGrappleSpot("Window")
 		if (inventoryCurrent == oGrapple)
 		{
 			say(cMarian, "Alright, Robin. Let's get you out of here!");
+			addCharacter(oGrapple, 295, 585, oGrapple.getDefaultCostume());
+			setCharacterExtra(oGrapple, FIXEDSIZE);
 			say(cRobin, "Coming!");
 			removeCharacter(cMarian);
 			moveCharacter(cRobin, 450, 780);
