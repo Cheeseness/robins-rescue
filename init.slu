@@ -9,6 +9,7 @@ var inventoryCurrent = NULL;
 var inventoryTempIcon = NULL;
 var paused = FALSE;
 var gameStarted = FALSE;
+var gameFinished = FALSE;
 
 
 var _inventoryXPos = 48;
@@ -312,24 +313,27 @@ sub showMenu()
 	paused = TRUE;
 	freeze();
 	handleHover(NULL);
-	onFocusChange(handleHover);
-	onKeyboard(handleKeyboard);
-	onLeftMouse(handleClick);
+	onFocusChange();
+	onKeyboard();
+	onLeftMouse();
 	addOverlay('backgrounds/menu_background.png', 0, 0);
 	playMusic(music2, TRUE, FALSE);
 
 	addScreenRegion(hMenuNew, 635, 425, 1265, 510, 0, 0, EAST);
 
-	if(gameStarted)
+	if (gameFinished == FALSE)
 	{
-		pasteString(CENTRE, 480, "Continue Game");
-	}
-	else
-	{
-		pasteString(CENTRE, 480, "New Game");
+		if(gameStarted)
+		{
+			pasteString(CENTRE, 480, "Continue Game");
+		}
+		else
+		{
+			pasteString(CENTRE, 480, "New Game");
+		}
 	}
 
-	if (gameStarted)
+	if (gameStarted == TRUE && gameFinished == FALSE)
 	{
 		addScreenRegion(hMenuSave, 635, 525, 1265, 610, 0, 0, EAST);
 		pasteString(CENTRE, 580, "Save Game");
@@ -343,6 +347,9 @@ sub showMenu()
 
 	addScreenRegion(hMenuQuit, 635, 825, 1265, 910, 0, 0, EAST);
 	pasteString(CENTRE, 880, "Quit");
+	onFocusChange(handleHover);
+	onKeyboard(handleKeyboard);
+	onLeftMouse(handleClick);
 }
 
 objectType hMenuNew("")
