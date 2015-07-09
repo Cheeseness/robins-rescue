@@ -115,11 +115,11 @@ objectType hRobinCorridorGrappleSpot("Conspicuous Hook")
 			say(cMarian, "Here goes!");
 			setFloor('backgrounds/rRobinCorridor.flo');
 
-			addCharacter(oGrapple, 953, 124, oGrapple.getDefaultCostume());
+			addCharacter(oGrapple, 920, 233, oGrapple.getDefaultCostume());
 			setCharacterExtra(oGrapple, FIXEDSIZE + FRONT);
 
 			setCharacterExtra(cMarian, FIXEDSIZE + FRONT);
-			jumpCharacter(cMarian, 953, 123);
+			jumpCharacter(cMarian, 920, 232);
 			setCostume(cMarian, cMarian.getSwingCostume());
 			pause(31);
 			playSound(guardCrash);
@@ -154,9 +154,9 @@ objectType hRobinRoomGrappleSpot("Window")
 	{
 		if (inventoryCurrent == oGrapple)
 		{
-			say(cMarian, "Alright, Robin. Let's get you out of here!");
-			addCharacter(oGrapple, 295, 585, oGrapple.getDefaultCostume());
+			addCharacter(oGrapple, 294, 582, oGrapple.getWindowCostume());
 			setCharacterExtra(oGrapple, FIXEDSIZE);
+			say(cMarian, "Alright, Robin. Let's get you out of here!");
 			say(cRobin, "Coming!");
 			removeCharacter(cMarian);
 			moveCharacter(cRobin, 450, 780);
@@ -164,9 +164,12 @@ objectType hRobinRoomGrappleSpot("Window")
 			removeCharacter(cRobin);
 			pause(30);
 			playSound(guardCrash);
+			
+			#We have to remove the grapple manually because blankScreen() seems to ignore stuff with the FIXEDSIZE flag
+			removeCharacter(oGrapple);
 			statusText("");
-			blankScreen();
 			inputDisable();
+			blankScreen();
 			pause(60);
 			transitionRoom(rEnding);
 		}
