@@ -310,8 +310,11 @@ sub transitionRoom(newRoom)
 
 sub showMenu()
 {
+	if (paused == FALSE)
+	{
+		freeze();
+	}
 	paused = TRUE;
-	freeze();
 	handleHover(NULL);
 	onFocusChange();
 	onKeyboard();
